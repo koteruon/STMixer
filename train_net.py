@@ -4,24 +4,23 @@ Basic training script for PyTorch
 
 import argparse
 import os
-
-import torch
-import torch.nn as nn
-from torch.utils.collect_env import get_pretty_env_info
-from alphaction.config import cfg
-from alphaction.dataset import make_data_loader
-from alphaction.solver import make_lr_scheduler, make_optimizer
-from alphaction.engine.inference import inference
-from alphaction.engine.trainer import do_train
-from alphaction.modeling.detector import build_detection_model
-from alphaction.utils.checkpoint import ActionCheckpointer
-from alphaction.utils.comm import synchronize, get_rank
-from alphaction.utils.logger import setup_logger, setup_tblogger
-from alphaction.utils.random_seed import set_seed
-from alphaction.structures.memory_pool import MemoryPool
 # pytorch issuse #973
 import resource
 
+import torch
+import torch.nn as nn
+from alphaction.config import cfg
+from alphaction.dataset import make_data_loader
+from alphaction.engine.inference import inference
+from alphaction.engine.trainer import do_train
+from alphaction.modeling.detector import build_detection_model
+from alphaction.solver import make_lr_scheduler, make_optimizer
+from alphaction.structures.memory_pool import MemoryPool
+from alphaction.utils.checkpoint import ActionCheckpointer
+from alphaction.utils.comm import get_rank, synchronize
+from alphaction.utils.logger import setup_logger, setup_tblogger
+from alphaction.utils.random_seed import set_seed
+from torch.utils.collect_env import get_pretty_env_info
 
 rlimit = resource.getrlimit(resource.RLIMIT_NOFILE)
 resource.setrlimit(resource.RLIMIT_NOFILE, (rlimit[1], rlimit[1]))
@@ -72,10 +71,10 @@ def train(cfg, local_rank, distributed, tblogger=None, transfer_weight=False, ad
         start_iter=arguments['iteration'],
     )
 
-    iter_per_epoch = cfg.SOLVER.ITER_PER_EPOCH
-    checkpoint_period = cfg.SOLVER.CHECKPOINT_PERIOD * iter_per_epoch
-    val_after = cfg.SOLVER.EVAL_AFTER * iter_per_epoch
-    val_period = cfg.SOLVER.EVAL_PERIOD * iter_per_epoch
+    iter_per_epoch = cfg.SOLVER.ITER_PER_EPOCH # 11524
+    checkpoint_period = cfg.SOLVER.CHECKPOINT_PERIOD * iter_per_epoch # 1 * 11524
+    val_after = cfg.SOLVER.EVAL_AFTER * iter_per_epoch # 3 * 11524
+    val_period = cfg.SOLVER.EVAL_PERIOD * iter_per_epoch #1 * 11524
 
     mem_active = cfg.MODEL.STM.MEM_ACTIVE
     frozen_backbone_bn = ('vit' not in cfg.MODEL.BACKBONE.CONV_BODY.lower()) and cfg.MODEL.BACKBONE.FROZEN_BN

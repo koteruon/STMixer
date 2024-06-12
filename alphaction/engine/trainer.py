@@ -3,12 +3,12 @@ import logging
 import time
 
 import torch
-
-from alphaction.utils.metric_logger import MetricLogger
-from alphaction.engine.inference import inference
-from alphaction.utils.comm import synchronize, reduce_dict, all_gather
-from alphaction.structures.memory_pool import MemoryPool
 import torch.nn as nn
+from alphaction.engine.inference import inference
+from alphaction.structures.memory_pool import MemoryPool
+from alphaction.utils.comm import all_gather, reduce_dict, synchronize
+from alphaction.utils.metric_logger import MetricLogger
+
 
 def do_train(
         model,

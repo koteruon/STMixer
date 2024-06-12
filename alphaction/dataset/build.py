@@ -1,10 +1,13 @@
 import bisect
 import copy
+
 import torch.utils.data
 from alphaction.utils.comm import get_world_size
+
 from . import datasets as D
 from . import samplers
 from .collate_batch import BatchCollator
+
 
 def build_dataset(cfg, split):
     if cfg.DATA.DATASETS[0] == 'ava_kinetics':

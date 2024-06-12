@@ -1,15 +1,16 @@
 # modified from https://github.com/facebookresearch/maskrcnn-benchmark/blob/master/maskrcnn_benchmark/engine/inference.py
+import datetime
 import logging
 import os
+import time
 
 import torch
-from tqdm import tqdm
-import time
-import datetime
-
 from alphaction.dataset.datasets.evaluation import evaluate
-from alphaction.utils.comm import get_rank, is_main_process, all_gather, gather, synchronize, get_world_size
 from alphaction.structures.memory_pool import MemoryPool
+from alphaction.utils.comm import (all_gather, gather, get_rank,
+                                   get_world_size, is_main_process,
+                                   synchronize)
+from tqdm import tqdm
 
 
 def compute_on_dataset_1stage(model, data_loader, device):

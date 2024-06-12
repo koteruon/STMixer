@@ -1,10 +1,12 @@
-import numpy as np
-import tempfile
-import os
-from pprint import pformat
 import csv
+import os
+import tempfile
 import time
 from collections import defaultdict
+from pprint import pformat
+
+import numpy as np
+
 from .pascal_evaluation import object_detection_evaluation, standard_fields
 
 
